@@ -1,20 +1,28 @@
 package money;
 
-abstract class Money {
-    int amount;
+class Money {
+    private int amount;
     private String currency;
 
-    Money(int amount, String currency) {
+    private Money(int amount, String currency) {
         this.amount = amount;
         this.currency = currency;
     }
 
     static Money dollar(int amount) {
-        return new Dollar(amount, "USD");
+        return new Money(amount, "USD");
     }
 
     static Money franc(int amount) {
-        return new Franc(amount, "CHF");
+        return new Money(amount, "CHF");
+    }
+
+    Money times(int multiplier) {
+        return new Money(amount * multiplier, currency);
+    }
+
+    String getCurrency() {
+        return currency;
     }
 
     @Override
@@ -25,12 +33,11 @@ abstract class Money {
 
         Money money = (Money) obj;
         return amount == money.amount
-                && getClass().equals(money.getClass());
+                && getCurrency().equals(money.getCurrency());
     }
 
-    abstract Money times(int multiplier);
-
-    String getCurrency() {
-        return currency;
+    @Override
+    public String toString() {
+        return amount + " " + currency;
     }
 }
