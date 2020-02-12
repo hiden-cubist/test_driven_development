@@ -1,10 +1,10 @@
 package money;
 
-class Money {
-    private int amount;
+class Money implements Expression {
+    int amount;
     private String currency;
 
-    private Money(int amount, String currency) {
+    Money(int amount, String currency) {
         this.amount = amount;
         this.currency = currency;
     }
@@ -21,8 +21,16 @@ class Money {
         return new Money(amount * multiplier, currency);
     }
 
-    String getCurrency() {
+    String currency() {
         return currency;
+    }
+
+    Expression plus(Money addend) {
+        return new Sum(this, addend);
+    }
+
+    public Money reduce(String to) {
+        return this;
     }
 
     @Override
@@ -33,7 +41,7 @@ class Money {
 
         Money money = (Money) obj;
         return amount == money.amount
-                && getCurrency().equals(money.getCurrency());
+                && currency().equals(money.currency());
     }
 
     @Override
