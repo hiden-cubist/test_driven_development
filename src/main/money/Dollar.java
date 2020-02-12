@@ -1,23 +1,11 @@
 package money;
 
-class Dollar {
-    private int amount;
-
-    Dollar(int amount) {
-        this.amount = amount;
+class Dollar extends Money {
+    Dollar(int amount, String currency) {
+        super(amount, currency);
     }
 
-    Dollar times(int multiplier) {
-        return new Dollar(amount * multiplier);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Dollar)) {
-            return false;
-        }
-
-        Dollar dollar = (Dollar) obj;
-        return amount == dollar.amount;
+    Money times(int multiplier) {
+        return Money.dollar(amount * multiplier);
     }
 }
