@@ -17,20 +17,24 @@ class Money implements Expression {
         return new Money(amount, "CHF");
     }
 
-    Money times(int multiplier) {
-        return new Money(amount * multiplier, currency);
-    }
-
     String currency() {
         return currency;
     }
 
-    Expression plus(Money addend) {
+    @Override
+    public Money reduce(Bank bank, String to) {
+        int rate = bank.rate(currency, to);
+        return new Money(amount / rate, to);
+    }
+
+    @Override
+    public Expression plus(Expression addend) {
         return new Sum(this, addend);
     }
 
-    public Money reduce(String to) {
-        return this;
+    @Override
+    public Expression times(int multiplier) {
+        return new Money(amount * multiplier, currency);
     }
 
     @Override
